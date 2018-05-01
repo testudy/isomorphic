@@ -1,19 +1,19 @@
 import http from 'http';
+import fsPromises from 'fs/promises';
+import Hogan from 'hogan.js';
 
-const server = http.createServer((req, res) => {
+
+const server = http.createServer(async (req, res) => {
     res.writeHead(200, {
-        'Content-Type': 'text/html',
+        'Content-Type': 'text/html; charset=utf-8',
     });
-    res.write('<h1>hello 1</h1>');
-    setTimeout(() => {
-        res.write('<h2>hello 2</h2>');
-        setTimeout(() => {
-            res.write('<p>hello 3</p>');
-            setTimeout(() => {
-                res.end('<p>okey</p>');
-            }, 2000);
-        }, 2000);
-    }, 2000);
+    const templateText = await fsPromises.readFile('./public/index.html', {
+        encoding: 'utf-8',
+        flag: 'r',
+    });
+    const template = Hogan.compile(templateText);
+    res.end(template.render({name: '暖暖 & 晓晓'}));
 });
+
 
 server.listen(3000);
