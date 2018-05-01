@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "call": "^5.0.1",
     "hogan.js": "^3.0.2"
   }
 }
